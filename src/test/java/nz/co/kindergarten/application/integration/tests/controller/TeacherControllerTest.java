@@ -27,10 +27,9 @@ public class TeacherControllerTest extends AbstractSpringIT {
         request.setMobileNumber("6499999999");
         request.setQualifications("Test");
 
-        ResponseEntity<TeacherRegisterResponse> response = teacherController.registerTeacher(request);
-        TeacherRegisterResponse teacherRegisterResponse = response.getBody();
+        TeacherRegisterResponse response = teacherController.registerTeacher(request);
 
-        assertNotNull(teacherRegisterResponse);
+        assertNotNull(response);
 
         Teacher teacherByEmailAndActive = teacherRepository.findByEmailIdAndActive(request.getEmailId(), true);
 

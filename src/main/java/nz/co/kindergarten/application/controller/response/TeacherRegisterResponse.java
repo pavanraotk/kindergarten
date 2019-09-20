@@ -1,10 +1,13 @@
 package nz.co.kindergarten.application.controller.response;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 
 @Data
-@Accessors(fluent = true)
+@Getter
+@Setter
 public class TeacherRegisterResponse {
     private Long id;
     private String firstName;
@@ -12,5 +15,5 @@ public class TeacherRegisterResponse {
     private String emailId;
     private Long mobileNumber;
     private String address;
-    private String qualification;
+    private String qualifications;
 }

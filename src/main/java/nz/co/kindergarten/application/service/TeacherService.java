@@ -33,14 +33,15 @@ public class TeacherService {
     }
 
     private TeacherRegisterResponse generateTeacherResponse(Teacher savedTeacher) {
-        return new TeacherRegisterResponse()
-                .id(savedTeacher.id())
-                .firstName(savedTeacher.firstName())
-                .lastName(savedTeacher.lastName())
-                .emailId(savedTeacher.emailId())
-                .mobileNumber(savedTeacher.mobileNumber())
-                .address(savedTeacher.address())
-                .qualification(savedTeacher.qualifications());
+        TeacherRegisterResponse response = new TeacherRegisterResponse();
+        response.setId(savedTeacher.id());
+        response.setFirstName(savedTeacher.firstName());
+        response.setLastName(savedTeacher.lastName());
+        response.setEmailId(savedTeacher.emailId());
+        response.setMobileNumber(savedTeacher.mobileNumber());
+        response.setAddress(savedTeacher.address());
+        response.setQualifications(savedTeacher.qualifications());
+        return response;
     }
 
     private Teacher createTeacher(TeacherRegisterRequest teacherRegisterRequest) {
