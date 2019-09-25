@@ -1,0 +1,17 @@
+{
+  "Resources" : {
+    "S3Bucket" : {
+      "Type" : "AWS::S3::Bucket",
+      "Properties" : {
+        "AccessControl" : "PublicRead",
+        "BucketName" : "kindergarten-s3-bucket",
+        "MetricsConfigurations": [
+          {
+            "Id": "EntireBucket"
+          }
+        ]
+      },
+      "DeletionPolicy" : "Retain"
+    }
+  }
+}

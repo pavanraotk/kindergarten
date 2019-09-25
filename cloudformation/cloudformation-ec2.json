@@ -1,0 +1,84 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Parameters": {
+    "SourceCodeBucket": {
+      "Type": "String",
+      "Default": "meter-s3-bucket"
+    }
+  },
+  "Resources": {
+    "RootRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "ec2.amazonaws.com"
+                ]
+              },
+              "Action": [
+                "sts:AssumeRole"
+              ]
+            }
+          ]
+        },
+        "Path": "/",
+        "Policies": [
+          {
+            "PolicyName": "root",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "s3:Get*",
+                    "s3:List*"
+                  ],
+                  "Resource": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:aws:s3:::",
+                        {
+                          "Ref": "SourceCodeBucket"
+                        },
+                        "/*"
+                      ]
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "RootInstanceProfile": {
+      "Type": "AWS::IAM::InstanceProfile",
+      "Properties": {
+        "Path": "/",
+        "Roles": [
+          {
+            "Ref": "RootRole"
+          }
+        ]
+      }
+    },
+    "Ec2Instance": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "ImageId": "ami-0378588b4ae11ec24",
+        "InstanceType": "t2.nano",
+        "IamInstanceProfile": {
+          "Ref": "RootInstanceProfile"
+        },
+        "UserData": "IyEvdXNyL2Jpbi9lbnYgYmFzaAphd3MgczMgY3AgczM6Ly97YnVja2V0IHdpdGgg\nY29kZX0vbWV0ZXItcmVhZGVyLTAuMC4xLVNOQVBTSE9ULmphciAvaG9tZS9lYzIt\ndXNlci9tZXRlci1yZWFkZXItMC4wLjEtU05BUFNIT1QuamFyCnN1ZG8geXVtIC15\nIGluc3RhbGwgamF2YS0xLjguMApzdWRvIHl1bSAteSByZW1vdmUgamF2YS0xLjcu\nMC1vcGVuamRrCmNkIC9ob21lL2VjMi11c2VyLwpzdWRvIG5vaHVwIGphdmEgLWph\nciBtZXRlci1yZWFkZXItMC4wLjEtU05BUFNIT1QuamFyID4gZWMyZGVwLmxvZw=="
+      }
+    }
+  }
+}
