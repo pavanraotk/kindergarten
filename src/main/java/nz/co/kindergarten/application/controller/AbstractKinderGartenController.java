@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import static java.util.Locale.ENGLISH;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
@@ -20,17 +21,17 @@ public abstract class AbstractKinderGartenController {
     private MessageSource messageSource;
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    protected ResponseEntity<ErrorResponse> handleException(MethodArgumentNotValidException ex) {
+    @ResponseStatus(BAD_REQUEST)
+    protected ErrorResponse handleValidationException(MethodArgumentNotValidException ex) {
         BindingResult bindingResult = ex.getBindingResult();
         String field = getFieldInException(bindingResult);
-        ErrorResponse error = getError(bindingResult, field);
-        return new ResponseEntity<>(error, BAD_REQUEST);
+        return getError(bindingResult, field);
     }
 
     @ExceptionHandler(value = KinderGartenServiceException.class)
-    protected ResponseEntity<ErrorResponse> handleException(KinderGartenServiceException ex) {
-        ErrorResponse errorResponse = new ErrorResponse(ex.getId(), ex.getMessage());
-        return new ResponseEntity<>(errorResponse, INTERNAL_SERVER_ERROR);
+    @ResponseStatus(INTERNAL_SERVER_ERROR)
+    protected ErrorResponse handleServiceException(KinderGartenServiceException ex) {
+        return new ErrorResponse(ex.getId(), ex.getMessage());
     }
 
     private ErrorResponse getError(BindingResult bindingResult, String field) {

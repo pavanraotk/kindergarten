@@ -1,5 +1,6 @@
 package nz.co.kindergarten.application.integration.tests.controller;
 
+import nz.co.kindergarten.application.builders.TeacherRegisterRequestBuilder;
 import nz.co.kindergarten.application.controller.TeacherController;
 import nz.co.kindergarten.application.controller.request.TeacherRegisterRequest;
 import nz.co.kindergarten.application.controller.response.TeacherRegisterResponse;
@@ -19,13 +20,7 @@ public class TeacherControllerTest extends AbstractSpringIT {
 
     @Test
     public void testTeacherController() throws KinderGartenServiceException {
-        TeacherRegisterRequest request = new TeacherRegisterRequest();
-        request.setAddress("T/T, Testing St, Testing City, 1234");
-        request.setEmailId("test@kindergarten.com");
-        request.setFirstName("test");
-        request.setLastName("test");
-        request.setMobileNumber("6499999999");
-        request.setQualifications("Test");
+        TeacherRegisterRequest request = new TeacherRegisterRequestBuilder().withData().build();
 
         TeacherRegisterResponse response = teacherController.registerTeacher(request);
 

@@ -1,13 +1,11 @@
 package nz.co.kindergarten.application.controller.response;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 @Data
-@Getter
-@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class TeacherRegisterResponse {
     private Long id;
     private String firstName;
